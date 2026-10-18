@@ -1,0 +1,11 @@
+{
+  "version": "2026-10-19-3d",
+  "runtime": "3d",
+  "source": "projects/honglou-3d",
+  "sourceCodeConfigSHA256": "942c2059ed8100820ee18cae924989ab0cbc3b39f77cf5da75796af259e6030a",
+  "bytes": 448425144,
+  "renderer": "gl_compatibility",
+  "onlineLLM": false,
+  "cloudSave": false,
+  "saveScope": "HonglouSims-Web-3d-20261019"
+}

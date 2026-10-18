@@ -1,0 +1,11 @@
+{
+  "version": "2026-10-19-2d",
+  "runtime": "2d",
+  "source": "godot-port",
+  "sourceCodeConfigSHA256": "96c7cf48e599baad998931c22672b86a5c27b71b90bb9e2c3c8181b61d40b828",
+  "bytes": 217707256,
+  "renderer": "gl_compatibility",
+  "onlineLLM": false,
+  "cloudSave": false,
+  "saveScope": "HonglouSims-Web-2d-20261019"
+}

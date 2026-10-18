@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' blob: data:; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; connect-src 'self'; worker-src 'self' blob:;">
+<title>红楼模拟 · 二维试玩</title>
+<link id="-gd-engine-icon" rel="icon" type="image/png" href="index.icon.png" />
+<link rel="apple-touch-icon" href="index.apple-touch-icon.png"/>
+
+<style>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#142c26;color:#f6f3ea;font-family:'PingFang SC','Microsoft YaHei',sans-serif}
+canvas{display:block;width:100%;height:100%;outline:none;touch-action:none}
+#loading{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#142c26}
+.intro{max-width:520px;padding:32px;text-align:center}h1{font-size:32px;font-weight:500;letter-spacing:6px;color:#e5cf9d}p{font-size:14px;line-height:1.8;color:#c5cec9}
+progress{display:block;width:100%;height:6px;accent-color:#e5cf9d;margin:28px 0 14px}
+#detail{font-size:16px;color:#f6f3ea}button{padding:10px 24px;background:#233e34;color:#e5cf9d;border:1px solid #516457;border-radius:6px;cursor:pointer}
+</style>
+</head>
+<body>
+<canvas id="canvas" tabindex="0">浏览器不支持游戏画布，请使用最新版 Chrome 或 Edge。</canvas>
+<section id="loading"><div class="intro">
+<h1>红楼模拟 · 二维</h1><p>园中一日，自在生活</p>
+<progress id="progress"></progress>
+<p id="detail" role="status" aria-live="polite">正在准备入园……</p>
+<p>首次载入需下载游戏素材，请稍候。<br>建议电脑横屏游玩。本版使用规则AI，无需模型密钥。<br>进度只存于当前浏览器，清理网站数据会清除存档。</p>
+<p><a style="color:#e5cf9d" href="../versions.html">选择其他版本 / 返回旧版</a></p>
+<button id="retry" hidden>重新加载</button>
+</div></section>
+<noscript>请启用 JavaScript 后再进入游戏。</noscript>
+<script src="index.js"></script>
+<script>
+const config = {"args":[],"canvasResizePolicy":2,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":true,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":217707256,"index.wasm":37686550},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4};
+const engine = new Engine(config);
+const detail = document.getElementById('detail');
+const progress = document.getElementById('progress');
+const retry = document.getElementById('retry');
+retry.onclick = () => location.reload();
+function fail(error) {
+  console.error(error);
+  detail.textContent = '入园失败，请检查网络或使用最新版 Chrome / Edge 重试。';
+  progress.hidden = true;
+  retry.hidden = false;
+}
+const missing = Engine.getMissingFeatures({threads:false});
+if (missing.length) {
+  fail(new Error(missing.join(', ')));
+  detail.textContent = '浏览器缺少运行能力：' + missing.join('、');
+} else {
+  engine.startGame({onProgress(current,total) {
+    if (total > 0) {
+      progress.max = total; progress.value = current;
+      detail.textContent = current >= total ? '素材已齐，正在布置园子……' : `正在载入 ${Math.floor(current / total * 100)}% · ${(current / 1048576).toFixed(0)} / ${(total / 1048576).toFixed(0)} MB`;
+    }
+  }}).then(() => document.getElementById('loading').remove()).catch(fail);
+}
+</script>
+</body></html>
+

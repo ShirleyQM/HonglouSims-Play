@@ -22,11 +22,16 @@ jobs:
       - name: Assemble verified runtime
         run: |
           mkdir _site
-          cp index.html index.js index.wasm index.*.js index*.png *.LICENSE.txt _site/
-          cat .chunks/index.pck.* > _site/index.pck
-          cd _site
-          sha256sum -c ../index.pck.sha256
-          touch .nojekyll
+          cp index.html index.js index.wasm index.*.js index*.png *.LICENSE.txt versions.html _site/
+          for variant in . 2d 3d; do
+            mkdir -p "_site/$variant"
+            if [ "$variant" != . ]; then
+              cp "$variant"/index.html "$variant"/index.js "$variant"/index.wasm "$variant"/index.*.js "$variant"/index*.png "$variant"/release.json "_site/$variant/"
+            fi
+            cat "$variant"/.chunks/index.pck.* > "_site/$variant/index.pck"
+            (cd "_site/$variant" && sha256sum -c "$GITHUB_WORKSPACE/$variant/index.pck.sha256")
+          done
+          touch _site/.nojekyll
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site
