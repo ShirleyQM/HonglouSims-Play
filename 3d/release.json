@@ -3,8 +3,9 @@
   "runtime": "3d",
   "source": "projects/honglou-3d",
   "sourceCodeConfigSHA256": "942c2059ed8100820ee18cae924989ab0cbc3b39f77cf5da75796af259e6030a",
-  "bytes": 448425144,
+  "bytes": 448425448,
   "renderer": "gl_compatibility",
+  "webShaderAdapter": "shared-canopy-material-v1",
   "onlineLLM": false,
   "cloudSave": false,
   "saveScope": "HonglouSims-Web-3d-20261019"
